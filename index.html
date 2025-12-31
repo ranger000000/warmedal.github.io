@@ -6,10 +6,17 @@
     <title>Market Value of Fine Silver in a WW1 British War Medal</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        #value { font-size: 2em; font-weight: bold; color: #333; }
+        #value { font-size: 2.5em; font-weight: bold; color: #333; margin: 20px 0; }
         #loading { font-size: 1.5em; color: #666; }
         #error { color: red; }
-        #timestamp { font-size: 0.9em; color: #888; margin-top: 20px; }
+        #timestamp { font-size: 0.9em; color: #888; margin: 20px 0; }
+        .medal-image {
+            max-width: 90%;
+            height: auto;
+            margin: 30px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -18,6 +25,9 @@
     <div id="value"></div>
     <div id="timestamp"></div>
     <div id="error"></div>
+
+    <!-- Your medal photo inserted here -->
+    <img src="medal.jpg" alt="WW1 British War Medal" class="medal-image">
 
     <script>
         async function fetchSilverPrice() {
@@ -47,9 +57,8 @@
 
                 valueEl.textContent = `£${valueInGBP.toFixed(2)}`;
                 
-                // Show only the date (e.g., 31/12/2025)
                 const today = new Date();
-                const dateStr = today.toLocaleDateString('en-GB'); // UK format: DD/MM/YYYY
+                const dateStr = today.toLocaleDateString('en-GB');
                 timestampEl.textContent = `Spot price as of ${dateStr}`;
                 
                 loadingEl.style.display = 'none';
@@ -59,7 +68,6 @@
             }
         }
 
-        // Load on page load and refresh every 5 minutes (in case the daily update rolls over)
         fetchSilverPrice();
         setInterval(fetchSilverPrice, 300000);
     </script>
