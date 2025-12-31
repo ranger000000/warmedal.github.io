@@ -59,7 +59,7 @@
                 
                 const today = new Date();
                 const dateStr = today.toLocaleDateString('en-GB');
-                timestampEl.textContent = `Spot price as of ${dateStr}`;
+                timestampEl.textContent = `Updated 00:00, ${dateStr}`;
                 
                 loadingEl.style.display = 'none';
             } catch (err) {
