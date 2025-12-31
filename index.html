@@ -49,7 +49,7 @@
                 const valueInGBP = (pricePerGramUSD * usdToGbpRate) * 26.06;
 
                 valueEl.textContent = `£${valueInGBP.toFixed(2)} `;
-                timestampEl.textContent = `Last updated: ${new Date().toLocaleString()} (market price refreshes live)`;
+                timestampEl.textContent = `Last updated: ${new Date().}`;
                 loadingEl.style.display = 'none';
             } catch (err) {
                 errorEl.textContent = 'Error loading price: ' + err.message + '. Try refreshing.';
