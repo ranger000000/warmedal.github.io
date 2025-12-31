@@ -48,7 +48,7 @@
                 const pricePerGramUSD = pricePerTroyOunceUSD / gramsPerTroyOunce;
                 const valueInGBP = (pricePerGramUSD * usdToGbpRate) * 26.06;
 
-                valueEl.textContent = `£${valueInGBP.toFixed(2)} GBP`;
+                valueEl.textContent = `£${valueInGBP.toFixed(2)} `;
                 timestampEl.textContent = `Last updated: ${new Date().toLocaleString()} (market price refreshes live)`;
                 loadingEl.style.display = 'none';
             } catch (err) {
