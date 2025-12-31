@@ -1,0 +1,57 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Value of 26.06g Fine Silver</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        #value { font-size: 2em; font-weight: bold; color: #333; }
+        #loading { font-size: 1.5em; color: #666; }
+        #error { color: red; }
+        #timestamp { font-size: 0.9em; color: #888; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Live Market Value of 26.06 Grams of Fine Silver</h1>
+    <div id="loading">Loading current silver price...</div>
+    <div id="value"></div>
+    <div id="timestamp"></div>
+    <div id="error"></div>
+    <script>
+        async function fetchSilverPrice() {
+            const loadingEl = document.getElementById(' loading');
+            const valueEl = document.getElementById(' value');
+            const timestampEl = document.getElementById(' timestamp');
+            const errorEl = document.getElementById(' error');
+            try {
+                // Fetch silver spot price in USD per troy ounce
+                const metalsResponse = await fetch('https://api.metals.dev/ latest?api_key=false&metal= XAG&currency=USD');
+                if (!metalsResponse.ok) throw new Error('Failed to fetch silver price');
+                const metalsData = await metalsResponse.json();
+                const pricePerTroyOunceUSD = metalsData.spot;
+                if (!pricePerTroyOunceUSD) throw new Error('No silver price data available');
+                // Fetch current USD to GBP exchange rate (free, no key needed)
+                const fxResponse = await fetch('https://cdn.jsdelivr. net/npm/@fawazahmed0/currency- api@latest/v1/currencies/usd. json');
+                if (!fxResponse.ok) throw new Error('Failed to fetch exchange rate');
+                const fxData = await fxResponse.json();
+                const usdToGbpRate = fxData.usd.gbp;
+                if (!usdToGbpRate) throw new Error('No GBP exchange rate available');
+                // Convert to grams: 1 troy ounce = 31.1034768 grams
+                const gramsPerTroyOunce = 31.1034768;
+                const pricePerGramUSD = pricePerTroyOunceUSD / gramsPerTroyOunce;
+                const valueInGBP = (pricePerGramUSD * usdToGbpRate) * 26.06;
+                valueEl.textContent = `£${valueInGBP.toFixed(2)} GBP`;
+                timestampEl.textContent = `Last updated: ${new Date().toLocaleString()} (market price refreshes live)`;
+                loadingEl.style.display = 'none';
+            } catch (err) {
+                errorEl.textContent = 'Error loading price: ' + err.message + '. Try refreshing.';
+                loadingEl.style.display = 'none';
+            }
+        }
+        // Load on page load and refresh every 60 seconds for near-real-time updates
+        fetchSilverPrice();
+        setInterval(fetchSilverPrice, 60000);
+    </script>
+</body>
+</html> 
