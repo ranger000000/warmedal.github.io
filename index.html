@@ -65,7 +65,7 @@
            
             const today = new Date();
             const dateStr = today.toLocaleDateString('en-GB');
-            timestampEl.textContent = `Last updated: ${dateStr} (refreshes hourly)`;
+            timestampEl.textContent = `${dateStr}`;
            
             loadingEl.style.display = 'none';
         } catch (err) {
